@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @db.VarChar(100) @id
+  name String @db.VarChar(100)
+  email String @db.VarChar(100) @unique
+  password String @db.VarChar(100)
+  company Company[]
+
+  @@map("users")
+}
+
+model Company {
+  id_company String @db.VarChar(100) @id
+  name String @db.VarChar(100)
+  description String? @db.Text
+  email_company String? @db.VarChar(100)
+  position String @db.VarChar(100)
+  phone String? @db.VarChar(100)
+  address String? @db.VarChar(100)
+  status String @db.VarChar(100)
+  image String? @db.Text
+  timeAdd DateTime? @db.DateTime()
+  id_user String @db.VarChar(100)
+  user User @relation(fields: [id_user], references: [id])
+
+  @@map("company")
+}
